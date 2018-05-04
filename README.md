@@ -4,13 +4,13 @@ Welcome to Berycoin gem for Ruby and Rails developers, it helps you interact wit
 It is really a wrapper for berycoin
 
 ```ruby 
-puts Berycoin::Blockchain::getnewaddress
-bery_info =  Berycoin::Control::getinfo
+puts Berycoin::Gem::Blockchain::getnewaddress
+bery_info =  Berycoin::Gem::Control::getinfo
 puts bery_info["version"]
 puts bery_info["protocolversion"]
 
-puts Berycoin::Wallet::listaccounts
-@balance = Berycoin::Wallet::getbalance
+puts Berycoin::Gem::Wallet::listaccounts
+@balance = Berycoin::Gem::Wallet::getbalance
 ```
 
 ## Installation
