@@ -1,9 +1,10 @@
 require "berycoin/gem/version"
-require "berycoin/gem/layer_rpc"
+require 'net/http'
+require 'uri'
+require 'json'
+
 
 module Berycoin
-  module Gem
-
     RPCUSER = ENV['RPCUSER']
     RPCPASS = ENV['RPCPASS']
     RPCHOST = ENV['RPCHOST']
@@ -324,5 +325,28 @@ module Berycoin
         H.signmessage(berycoinaddress,message)
       end
     end
+end
+
+class BerycoinRPC
+  def initialize(service_url)
+    @uri = URI.parse(service_url)
   end
+
+  def method_missing(name, *args)
+    post_body = { 'method' => name, 'params' => args, 'id' => 'jsonrpc' }.to_json
+    resp = JSON.parse( http_post_request(post_body) )
+    raise JSONRPCError, resp['error'] if resp['error']
+    resp['result']
+  end
+
+  def http_post_request(post_body)
+    http    = Net::HTTP.new(@uri.host, @uri.port)
+    request = Net::HTTP::Post.new(@uri.request_uri)
+    request.basic_auth @uri.user, @uri.password
+    request.content_type = 'application/json'
+    request.body = post_body
+    http.request(request).body
+  end
+
+  class JSONRPCError < RuntimeError; end
 end
