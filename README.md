@@ -10,7 +10,7 @@ puts bery_info["version"]
 puts bery_info["protocolversion"]
 
 puts Berycoin::Wallet::listaccounts
-@balance = Berycoin::Wallet::getbalance
+puts Berycoin::Wallet::getbalance
 ```
 
 ## Installation

@@ -10,7 +10,8 @@ Gem::Specification.new do |spec|
   spec.email         = ["bilal_haider032@gmail.com"]
 
   spec.summary       = %q{Berycoin-gem is a ruby gem to interact with berycoin node}
-  spec.description   = %q{Berycoin-gem helps you talk to berycoin node, you have access to all methods which bitcoin 0.13.3 }
+  spec.description   = %q{Berycoin-gem helps you talk to berycoin node, you have access to all methods which bitcoin 0.13.3 has in it,
+                       infact this gem can be used with bitcoin/litecoin and forks of them.  }
   spec.homepage      = "http://www.github.com/berycoin-project/berycoin-gem"
   spec.license       = "MIT"
 

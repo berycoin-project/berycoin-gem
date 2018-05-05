@@ -260,8 +260,14 @@ module Berycoin
       def Wallet.getbalance
         H.getbalance
       end
+      def Wallet.getbalance(account)
+        H.getbalance account
+      end
       def Wallet.getnewaddress
         H.getnewaddress
+      end
+      def Wallet.getnewaddress(account)
+        H.getnewaddress account
       end
       def Wallet.getrawchangeaddress
         H.getrawchangeaddress
@@ -335,8 +341,8 @@ module Berycoin
       def Wallet.sendmany(fromaccount, json)
         H.sendmany(fromaccount, json)
       end
-      def Wallet.sendtoaddress(berycoinaddress,account)
-        H.sendtoaddress(berycoinaddress,account)
+      def Wallet.sendtoaddress(berycoinaddress,amount)
+        H.sendtoaddress(berycoinaddress,amount)
       end
       def Wallet.setaccount(berycoinaddress,account)
         H.setaccount(berycoinaddress,account)
