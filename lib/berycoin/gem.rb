@@ -36,6 +36,15 @@ module Berycoin
     H = BerycoinRPC.new(LINK)
 
     module Blockchain
+      
+      def Blockchain.callcontract(address, data)
+        H.callcontract(address,data)
+      end
+      
+      def Blockchain.getaccountinfo(address)
+        H.getaccountinfo address
+      end
+
       def Blockchain.getnewaddress
         H.getnewaddress
       end
@@ -63,6 +72,9 @@ module Berycoin
       def Blockchain.getchaintips
         H.getchaintips
       end
+      def Blockchain.getchaintxstats(nBlocks)
+        H.getchaintxstats nBlocks
+      end
       def Blockchain.getdifficulty
         H.getdifficulty
       end
@@ -81,8 +93,26 @@ module Berycoin
       def Blockchain.getrawmempool
         H.getrawmempool
       end
-      def Blockchain.gettxout(txid)
-        H.gettxout(txid)
+      def getstorage (address)
+        H.getstorage address
+      end
+      def gettransactionreceipt(hash)
+        H.gettransactionreceipt hash
+      end
+      def listcontracts 
+        H.listcontracts
+      end
+      def preciousblock(blockhash)
+        H.preciousblock blockhash
+      end
+      def pruneblockchain
+        H.pruneblockchain
+      end
+      def searchlogs(from,to,address,topics)
+        H.searchlogs from to address topics
+      end
+      def waitforlogs (fromBlock) (toBlock) (filter) (minconf)
+        H.waitforlogs from to filter minconf
       end
       def Blockchain.gettxout(txid, n)
         H.gettxout(txid, n)
@@ -104,11 +134,17 @@ module Berycoin
       def Control.getinfo
         H.getinfo
       end
+      def Control.getmemoryinfo
+        H.getmemoryinfo
+      end
       def Control.help
         H.help
       end
       def Control.stop
         H.stop
+      end
+      def Control.uptime
+        H.uptime
       end
     end
     module Generating
@@ -132,14 +168,17 @@ module Berycoin
       def Mining.prioritisetransaction(*opt)
         H.prioritisetransaction (opt)
       end
+      def Mining.getstakinginfo
+        H.getstakinginfo
+      end
+      def Mining.getsubsidy(*nTarget)
+        H.getsubsidy nTarget
+      end  
       def Mining.submitblock(hexdata)
         H.submitblock(hexdata)
       end
     end
     module Network
-      def Network.addnode(node)
-        H.addnode node
-      end
       def Network.addnode(node, option)
         H.addnode(node, option)
       end
@@ -170,14 +209,17 @@ module Berycoin
       def Network.ping
         H.ping
       end
-      def Network.setban (ip)
-        H.setban(ip)
-      end
-      def Network.setban (ip, opt)
+      def Network.setban (ip, *opt)
         H.setban(ip, opt)
+      end
+      def Network.setnetworkactive(flag)
+        H.setnetworkactive flag
       end
     end
     module RawTransactions
+      def RawTransactions.combinerawtransaction(opt)
+        H.combinerawtransaction opt
+      end
       def RawTransactions.createrawtransaction(*opt)
         H.createrawtransaction(opt)
       end
@@ -190,8 +232,14 @@ module Berycoin
       def RawTransactions.fundrawtransaction(hex)
         H.fundrawtransaction(hex)
       end
+      def RawTransactions.fromhexaddress(hexaddress)
+        H.fromhexaddress hexaddress
+      end
       def RawTransactions.getrawtransaction(txid)
         H.getrawtransaction(txid)
+      end
+      def RawTransactions.gethexaddress(address)
+        H.gethexaddress address
       end
       def RawTransactions.sendrawtransaction(hex)
         H.sendrawtransaction(hex)
@@ -230,7 +278,10 @@ module Berycoin
       def Wallet.abandontransaction(txid)
         H.abandontransaction txid
       end
-      def Wallet.addmultisigaddress(nrequired)
+      def Wallet.abortrescan
+        H.abortrescan
+      end
+      def Wallet.addmultisigaddress(*nrequired)
         H.addmultisigaddress nrequired
       end
       def Wallet.addwitnessaddress(address)
@@ -238,6 +289,12 @@ module Berycoin
       end
       def Wallet.backupwallet(destination)
         H.backupwallet destination
+      end
+      def Wallet.bumpfee(txid)
+        H.bumpfee txid
+      end
+      def Wallet.createcontract(*bytecode)
+        H.createcontract bytecode
       end
       def Wallet.dumpprivkey(berycoinaddress)
         H.dumpprivkey berycoinaddress
@@ -257,16 +314,10 @@ module Berycoin
       def Wallet.getaddressesbyaccount(account)
         H.getaddressesbyaccount(account)
       end
-      def Wallet.getbalance
-        H.getbalance
-      end
-      def Wallet.getbalance(account)
+      def Wallet.getbalance(*account)
         H.getbalance account
       end
-      def Wallet.getnewaddress
-        H.getnewaddress
-      end
-      def Wallet.getnewaddress(account)
+      def Wallet.getnewaddress(*account)
         H.getnewaddress account
       end
       def Wallet.getrawchangeaddress
@@ -289,6 +340,9 @@ module Berycoin
       end
       def Wallet.importaddress(address)
         H.importaddress address
+      end
+      def importmulti(requests)
+        H.importmulti requests
       end
       def Wallet.importprivkey(berycoinprivkey)
         H.importprivkey berycoinprivkey
@@ -320,11 +374,14 @@ module Berycoin
       def Wallet.listreceivedbyaddress
         H.listreceivedbyaddress
       end
-      def Wallet.listsinceblock
-        H.listsinceblock
+      def Wallet.listsinceblock(*blockhash)
+        H.listsinceblock blockhash
       end
-      def Wallet.listtransactions
-        H.listtransactions
+      def Wallet.listtransactions(*account)
+        H.listtransactions account
+      end
+      def Wallet.listwallets 
+        H.listwallets
       end
       def Wallet.listunspent
         H.listunspent
@@ -335,14 +392,38 @@ module Berycoin
       def Wallet.move(fromaccount,toaccount, amount)
         H.move(fromaccount, toaccount, amount)
       end
+      def removeprunedfunds(txid)
+        H.removeprunedfunds txid
+      end
+      def reservebalance(reserve,amount)
+        H.reservebalance(reserve,amount)
+      end
       def Wallet.sendfrom(fromaccount,toberycoinaddress,amount)
         H.sendfrom(fromaccount,toberycoinaddress,amount)
       end
       def Wallet.sendmany(fromaccount, json)
         H.sendmany(fromaccount, json)
       end
+      def Wallet.sendmanywithdupes(*opt)
+        H.sendmanywithdupes opt
+      end
       def Wallet.sendtoaddress(berycoinaddress,amount)
         H.sendtoaddress(berycoinaddress,amount)
+      end
+      def sendtocontract (contractaddress,data)
+        H.sendtocontract(contractaddress,data)
+      end
+      def setaccount(address,account)
+        H.setaccount(address,account)
+      end
+      def walletlock
+        H.walletlock
+      end
+      def walletpassphrase (passphrase, timeout)
+        H.walletpassphrase (passphrase, timeout)
+      end
+      def walletpassphrasechange(oldpassphrase,newpassphrase)
+        H.walletpassphrasechange (oldpassphrase, newpassphrase)
       end
       def Wallet.setaccount(berycoinaddress,account)
         H.setaccount(berycoinaddress,account)
